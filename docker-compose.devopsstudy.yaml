@@ -1,0 +1,16 @@
+services:
+  devopsstudy:
+    image: deveshpatidar/myimage:t${BUILD_NUMBER}
+    build:
+      context: .
+      dockerfile: Dockerfile.devopsstudy.in
+    env_file:
+      - .env
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - letsencrypt_data:/etc/letsencrypt
+      - certbot_webroot:/var/www/certbot
+volumes:
+  letsencrypt_data:
+  certbot_webroot:

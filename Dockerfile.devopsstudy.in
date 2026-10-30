@@ -1,0 +1,24 @@
+
+FROM ubuntu/apache2:latest
+
+## CI args
+
+## CI envs for later usage
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends certbot \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html
+
+COPY . .
+
+RUN mv /var/www/html/.env /var/www/
+
+RUN mv /var/www/.env /var/www/app.env
+
+RUN chmod +x /var/www/html/entrypoint.sh
+
+ENTRYPOINT ["/var/www/html/entrypoint.sh"]
+
